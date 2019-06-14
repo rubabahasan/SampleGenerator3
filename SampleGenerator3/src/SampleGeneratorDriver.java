@@ -30,10 +30,15 @@ public class SampleGeneratorDriver {
     public static void main(String[] args)
     {
         String outputFile = "sampleOutput.csv";
-        int N = 100000; //number of samples
+        int N = 20000000; //number of samples
 
+        //moments = 2,6,24
         double[][] tau_raw = {{1,0}};
         double[][] T_raw = {{-1,1},{0,-1}};
+
+//        //moments = 3, 30, 3000
+//        double[][] tau_raw = {{1,0}};
+//        double[][] T_raw = {{-0.3431, 0.0004}, {0, -0.0137}};
 
 //        double[][] tau_raw = {{1,0,0,0,0}};
 //        double[][] T_raw = {{-1,1,0,0,0}, {0,-1,1,0,0}, {0,0,-1,1,0},  {0,0,0,-3,1.5}, {0,0,0,0,-2}};
@@ -46,23 +51,31 @@ public class SampleGeneratorDriver {
         RealMatrix T = MatrixUtils.createRealMatrix(T_raw);
 
         SampleGenerator sg = new SampleGeneratorPH(tau, T);
-        System.out.println(sg);
+//        System.out.println(sg);
         ArrayList<Long> samples = sg.generateSample(N);
 
         double sum1 = 0, sum2 = 0, sum3 = 0;
         for(int i=0; i<N; i++)
         {
-            sum1 += samples.get(i);
-            sum3 += Math.pow(samples.get(i), 3);
+
+            double sample = samples.get(i)/1000000000.0;
+//            System.out.println("Sample "  + sample);
+            sum1 += sample;
+            sum3 += Math.pow(sample, 3);
+            sum2 += Math.pow(sample, 2);
+//            sum3 += Math.pow(samples.get(i), 3);
         }
 
-        double mean = sum1/(double)N;
-        for(int i=0; i<N; i++)
-        {
-            sum2 += Math.pow(samples.get(i), 2);
-        }
-        System.out.println("Mean = " + (sum1/N) + "\n 2nd Moment = " +  (sum2/N) + "\n3rd Moment = " + (sum3/N));
+//        for(int i=0; i<N; i++)
+//        {
+//            double sample = samples.get(i)/1000000000.0;
+//            sum2 += Math.pow(sample, 2);
+////            sum2 += Math.pow(samples.get(i), 2);
+//        }
+//        System.out.println("Mean = " + (sum1) + "\n 2nd Moment = " +  (sum2) + "\n3rd Moment = " + (sum3));
 
-        writeToFile(samples, outputFile);
+        System.out.println("Mean = " + (sum1/(double)N) + "\n 2nd Moment = " +  (sum2/(double)N) + "\n3rd Moment = " + (sum3/(double)N));
+
+//        writeToFile(samples, outputFile);
     }
 }
