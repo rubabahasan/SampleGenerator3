@@ -80,7 +80,7 @@ public class SampleGeneratorPH implements SampleGenerator{
                 '}';
     }
 
-    public Long generateSingleSample() {
+    public long nextRand() {
         //RealMatrix tau;
         double var = 0;
         double r_p = rand.nextDouble();
@@ -146,8 +146,48 @@ public class SampleGeneratorPH implements SampleGenerator{
         ArrayList<Long> alist = new ArrayList<Long>();
         for(int i=0; i<N; i++)
         {
-            alist.add(generateSingleSample());
+            alist.add(nextRand());
         }
         return alist;
     }
+
+    @Override
+    public double[] calculateStats( ArrayList<Long> alist)
+    {
+        double[] stats = new double[3];
+
+        double sum1 = 0, sum2 = 0, sum3 = 0;
+        for(int i=0; i<alist.size(); i++)
+        {
+
+            double sample = alist.get(i)/1000000000.0;
+//            System.out.println("Sample "  + sample);
+            sum1 += sample;
+            sum3 += Math.pow(sample, 3);
+            sum2 += Math.pow(sample, 2);
+//            sum3 += Math.pow(samples.get(i), 3);
+        }
+
+        stats[0] = sum1/(double) alist.size();
+        stats[1] = sum2/(double) alist.size();
+        stats[2] = sum3/(double) alist.size();
+
+        return stats;
+    }
+
+    @Override
+    public void reset(RealMatrix tau, RealMatrix T) {
+        this.tau = tau;
+        this.T = T;
+
+        for (int i = 0; i < this.T.getRowDimension(); i++) {
+            double sum = 0;
+            for (int j = 0; j < this.T.getColumnDimension(); j++) {
+                sum += this.T.getEntry(i, j);
+            }
+            lambda_table[i] = -this.T.getEntry(i, i);
+            this.T.setEntry(i, i, -sum);
+        }
+    }
+
 }
