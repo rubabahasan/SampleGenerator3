@@ -31,7 +31,7 @@ public class SampleGeneratorDriver {
     public static void main(String[] args)
     {
         String outputFile = "sampleOutput.csv";
-        int N = 100000000; //number of samples
+        int N = 10000; //number of samples
 
         //moments = 2,6,24
         //double[][] tau_raw = {{1,0}};
@@ -42,8 +42,12 @@ public class SampleGeneratorDriver {
 //        double[][] T_raw = {{-0.3431, 0.0004}, {0, -0.0137}};
 
         //moments = 3.5833, 16.1389, 87.7639
-        double[][] tau_raw = {{1,0,0,0,0}};
-        double[][] T_raw = {{-1,1,0,0,0}, {0,-1,1,0,0}, {0,0,-1,1,0},  {0,0,0,-3,1.5}, {0,0,0,0,-2}};
+//        double[][] tau_raw = {{1,0,0,0,0}};
+//        double[][] T_raw = {{-1,1,0,0,0}, {0,-1,1,0,0}, {0,0,-1,1,0},  {0,0,0,-3,1.5}, {0,0,0,0,-2}};
+
+        //moments =
+        double[][] tau_raw = {{1,0}};
+        double[][] T_raw = {{-0.000000033977948,0.000000030473593},{0,-0.000000002452611}};
 
 
         //moments = 13.6876, 250.1553, 5199.5
